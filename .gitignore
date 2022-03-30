@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### others ###
+set_env_vars.sh
+run.sh

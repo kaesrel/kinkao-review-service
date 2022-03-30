@@ -2,6 +2,7 @@ package ku.review.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -25,9 +26,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    @Override
    protected void configure(HttpSecurity http) throws Exception {
        http
-               .csrf().disable()
+               // .csrf().disable()
                .authorizeRequests()
                // .antMatchers("/api/review", "/api/review/**").permitAll()
+               .mvcMatchers(HttpMethod.GET, "/api/review")
+                  .hasAuthority("SCOPE_read:reviews")
+               .mvcMatchers(HttpMethod.POST, "/api/review")
+                  .hasAuthority("SCOPE_create:reviews")
                .anyRequest()
                .authenticated()
                       // use stateless session, so user's state is not stored
